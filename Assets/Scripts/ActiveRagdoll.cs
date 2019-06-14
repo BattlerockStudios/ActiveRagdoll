@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ActiveRagdoll : MonoBehaviour
 {
@@ -9,16 +7,20 @@ public class ActiveRagdoll : MonoBehaviour
     public Rigidbody leftLeg;
     public Rigidbody rightLeg;
 
+    public Transform leftKneeTargetTransform;
+    public Transform rightKneeTargetTransform;
+
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
-            leftLeg.AddForce(transform.up * force, ForceMode.Impulse);
+            //leftLeg.AddForce((leftLeg.transform.position - leftKneeTargetTransform.position) * force, ForceMode.Impulse);
+            leftLeg.transform.position = Vector3.MoveTowards(leftLeg.transform.position, leftKneeTargetTransform.position, force * Time.deltaTime);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            rightLeg.AddForce(transform.up * force, ForceMode.Impulse);
+            rightLeg.AddForce((rightLeg.transform.position - rightKneeTargetTransform.position), ForceMode.Impulse);
         }
     }
 }
